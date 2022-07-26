@@ -2,8 +2,8 @@ const express = require("express");
 const {User} = require("./models");
 const app = express();
 const db = require("./db");
-// const port = process.env.port || 3001;
-const port =  3001;
+const port = process.env.port || 3001;
+// const port =  3001;
 
 const bodyParser = require("body-parser");
 const routes = require("./routes");
