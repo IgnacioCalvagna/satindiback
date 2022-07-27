@@ -1,6 +1,6 @@
 const express = require("express");
 const {User} = require("./models");
-const app = express();
+const server = express();
 const db = require("./db");
 const port = process.env.port || 3001;
 // const port =  3000;
@@ -14,11 +14,11 @@ const passport = require("passport");
 const localStrategy = require("passport-local").Strategy;
 const model = require("./models");
 const session = require("cookie-session");
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(morgan("tiny"));
-app.use(cookieParser());
-app.use(
+server.use(bodyParser.json());
+server.use(bodyParser.urlencoded({ extended: true }));
+server.use(morgan("tiny"));
+server.use(cookieParser());
+server.use(
   session({
     secret: "satindica",
     resave: false,
@@ -26,8 +26,8 @@ app.use(
     cookie: {secure: true, _expires: 60000000000000 },
   })
 );
-app.use(passport.initialize());
-app.use(passport.session());
+server.use(passport.initialize());
+server.use(passport.session());
 
 passport.use(
   new localStrategy(
@@ -68,14 +68,14 @@ passport.deserializeUser(function (id, done) {
     .catch(done);
 });
 
-app.use((err, req, res, next) => {
+server.use((err, req, res, next) => {
   console.error(err);
   res.status(500).send(err);
 });
-app.use("/api", routes);
+server.use("/api", routes);
 
 db.sync({ force: false }).then(() => {
-  app.listen(port, function () {
+  server.listen(port, function () {
     console.log(`Listening on port http://localhost:${port}`);
   });
 });
