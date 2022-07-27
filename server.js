@@ -9,11 +9,11 @@ const bodyParser = require("body-parser");
 const routes = require("./routes");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
-const session = require("express-session");
+// const session = require("express-session");
 const passport = require("passport");
 const localStrategy = require("passport-local").Strategy;
 const model = require("./models");
-
+const session = require("cookie-session");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan("tiny"));
@@ -21,9 +21,9 @@ app.use(cookieParser());
 app.use(
   session({
     secret: "satindica",
-    resave: true,
+    resave: false,
     saveUninitialized: true,
-    cookie: { _expires: 60000000000000 },
+    cookie: {secure: true, _expires: 60000000000000 },
   })
 );
 app.use(passport.initialize());
