@@ -13,7 +13,7 @@ exports.add = async (req, res, next) => {
 exports.getAll = async (req, res, next) => {
   try {
     const users = await User.findAll();
-    res.send(users);
+    res.status(200).send(users);
   } catch (err) {
     next(err);
   }

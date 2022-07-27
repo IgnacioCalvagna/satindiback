@@ -2,14 +2,14 @@ const express = require("express");
 const {User} = require("./models");
 const server = express();
 const db = require("./db");
-let port = process.env.PORT || 3001;
-// const port =  3000;
+let port = process.env.PORT || 3000;
+
 
 const bodyParser = require("body-parser");
 const routes = require("./routes");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
-// const session = require("express-session");
+// const  session = require("express-session");
 const passport = require("passport");
 const localStrategy = require("passport-local").Strategy;
 const model = require("./models");
