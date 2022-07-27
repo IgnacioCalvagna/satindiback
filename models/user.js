@@ -1,5 +1,5 @@
 const { DataTypes, Model } = require("sequelize");
-const db = require("../pg");
+const db = require("../db");
 const bcrypt = require("bcrypt");
 
 class User extends Model {
@@ -38,10 +38,10 @@ User.init(
   },
   {
     sequelize: db,
-    modelName: "user"
+    modelName: "users"
   }
 );
-User.addHook("beforeCreate", user => {
+User.beforeCreate(user => {
   return bcrypt
     .genSalt(16)
     .then((salt) => {

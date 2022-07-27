@@ -1,9 +1,8 @@
 const express = require("express");
-const { User } = require("./models");
+const  {User}  = require("./models");
 const app = express();
-// const db = require("./db");
-const db = require ('./pg')
-let port = process.env.PORT || 3001;
+const db = require("./db");
+const port = process.env.PORT || 3001;
 
 const bodyParser = require("body-parser");
 const routes = require("./routes");
@@ -12,7 +11,7 @@ const cookieParser = require("cookie-parser");
 const  session = require("express-session");
 const passport = require("passport");
 const localStrategy = require("passport-local").Strategy;
-const model = require("./models");
+// const model = require("./models");
 // const session = require("cookie-session");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -68,8 +67,7 @@ app.use((err, req, res, next) => {
 });
 app.use("/api", routes);
 
-db.sync({ force: false }).then(() => {
   app.listen(port, () => {
     console.log(`Listening on port http://localhost:${port}`);
   });
-});
+

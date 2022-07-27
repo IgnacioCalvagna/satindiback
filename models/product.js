@@ -1,5 +1,5 @@
 const { DataTypes, Model} = require('sequelize')
-const db = require('../pg')
+const db = require('../db')
 
 class Product extends Model{}
 
@@ -28,7 +28,7 @@ Product.init(
     },
     {
         sequelize:db,
-        modelName:'product'
+        modelName:'products'
         
     })
 
