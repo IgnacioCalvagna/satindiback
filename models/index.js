@@ -1,9 +1,9 @@
-const User = require('./user')
-const Product = require('./product')
+const User = require('./User');
+const Product = require('./Product')
 const Role = require('./Role')
 
 
-User.belongsTo(Role)
+// User.belongsTo(Role);
 
 
-module.exports={User, Product,Role}
+module.exports={User, Product}

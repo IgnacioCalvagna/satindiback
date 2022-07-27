@@ -1,33 +1,33 @@
 const express = require("express");
-const {User} = require("./models");
-const server = express();
-const db = require("./db");
-let port = process.env.PORT || 3000;
-
+const { User } = require("./models");
+const app = express();
+// const db = require("./db");
+const db = require ('./pg')
+let port = process.env.PORT || 3001;
 
 const bodyParser = require("body-parser");
 const routes = require("./routes");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
-// const  session = require("express-session");
+const  session = require("express-session");
 const passport = require("passport");
 const localStrategy = require("passport-local").Strategy;
 const model = require("./models");
-const session = require("cookie-session");
-server.use(bodyParser.json());
-server.use(bodyParser.urlencoded({ extended: true }));
-server.use(morgan("tiny"));
-server.use(cookieParser());
-server.use(
+// const session = require("cookie-session");
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(morgan("tiny"));
+app.use(cookieParser());
+app.use(
   session({
     secret: "satindica",
     resave: false,
     saveUninitialized: true,
-    cookie: {secure: true, _expires: 60000000000000 },
+    cookie: { secure: true, _expires: 60000000000000 },
   })
 );
-server.use(passport.initialize());
-server.use(passport.session());
+app.use(passport.initialize());
+app.use(passport.session());
 
 passport.use(
   new localStrategy(
@@ -36,18 +36,12 @@ passport.use(
       passwordField: "password",
     },
 
-    function (email, password, done) {
+    (email, password, done) => {
       User.findOne({ where: { email } })
         .then((user) => {
-          if (!user) {
-            return done(null, false);
-          }
-
+          if (!user) return done(null, false);
           user.setHash(password, user.salt).then((hash) => {
-            if (hash !== user.password) {
-              return done(null, false);
-            }
-
+            if (hash !== user.password) return done(null, false);
             return done(null, user);
           });
         })
@@ -56,11 +50,11 @@ passport.use(
   )
 );
 
-passport.serializeUser(function (user, done) {
+passport.serializeUser((user, done) => {
   done(null, user.id);
 });
 
-passport.deserializeUser(function (id, done) {
+passport.deserializeUser((id, done) => {
   User.findByPk(id)
     .then((user) => {
       done(null, user);
@@ -68,14 +62,14 @@ passport.deserializeUser(function (id, done) {
     .catch(done);
 });
 
-server.use((err, req, res, next) => {
+app.use((err, req, res, next) => {
   console.error(err);
   res.status(500).send(err);
 });
-server.use("/api", routes);
+app.use("/api", routes);
 
 db.sync({ force: false }).then(() => {
-  server.listen(port, function () {
+  app.listen(port, () => {
     console.log(`Listening on port http://localhost:${port}`);
   });
 });
