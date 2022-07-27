@@ -2,7 +2,7 @@ const express = require("express");
 const {User} = require("./models");
 const server = express();
 const db = require("./db");
-const port = process.env.port || 3001;
+const port = process.env.PORT || 3001;
 // const port =  3000;
 
 const bodyParser = require("body-parser");
