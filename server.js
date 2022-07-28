@@ -67,7 +67,10 @@ app.use((err, req, res, next) => {
 });
 app.use("/api", routes);
 
-  app.listen(port, () => {
+
+
+db.sync({ force: true }).then(() => {
+  app.listen(port, function () {
     console.log(`Listening on port http://localhost:${port}`);
   });
-
+});
