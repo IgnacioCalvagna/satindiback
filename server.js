@@ -11,7 +11,7 @@ const cookieParser = require("cookie-parser");
 const  session = require("express-session");
 const passport = require("passport");
 const localStrategy = require("passport-local").Strategy;
-// const model = require("./models");
+const model = require("./models");
 // const session = require("cookie-session");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
